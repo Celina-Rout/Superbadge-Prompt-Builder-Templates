@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>UeOy8tVUppFlJHWVlAA3SUoSO+bBAdsEtIHd277Jh8k=_1</activeVersionIdentifier>
+    <description>Summarizes all the fitness surveys of the client.</description>
+    <developerName>Summarize_Client_Goals</developerName>
+    <masterLabel>Summarize Client Goals</masterLabel>
+    <overridable>false</overridable>
+    <relatedEntity>Contact</relatedEntity>
+    <relatedField>Contact.Interest_Summary__c</relatedField>
+    <templateVersions>
+        <content>You are a wellness coach at Tranquil Trails reviewing a client’s fitness records.
+Fitness records: {!$RelatedList:Contact.Fitness__r.Records}
+Contact first name: {!$Input:Contact.FirstName}
+
+Instructions: &quot;&quot;&quot;
+Prepare a concise summary of the client’s fitness interests based solely on the information contained in the provided Fitness records.
+Refer to the Contact as “client” throughout the summary and use the client’s first name in the opening sentence.
+
+Writing guidelines:
+- Use clear, direct language in the active voice.
+- Maintain a friendly, informal, and informative tone.
+- Avoid filler language and redundancy.
+- Do not introduce information that is not present in the Fitness records.
+- If data is unavailable, omit it without commentary.
+
+Content requirements:
+- Include one brief introductory sentence.
+- Include several bullet points highlighting key interests, patterns, or relevant observations.
+- Use varied emoji as bullet points.
+- Include one brief closing sentence.
+- Limit the entire response to a maximum of seven sentences.
+   
+Stress interpretation:
+If a stress level is provided, interpret it using the following scale.
+- 1–6 indicates stress balance may need improvement.
+- 7–10 indicates strong stress balance.
+&quot;&quot;&quot;
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>RelatedEntity</apiName>
+            <definition>SOBJECT://Contact</definition>
+            <referenceName>Input:Contact</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getRelatedList</definition>
+            <description>Gets a related list for the specified parent record id and related list name</description>
+            <label>Fitness</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>parentRecordId</parameterName>
+                <valueExpression>{!$Input:Contact.Id}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>relatedListName</parameterName>
+                <valueExpression>Fitness__r</valueExpression>
+            </parameters>
+            <referenceName>RelatedList:Contact.Fitness__r.Records</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>UeOy8tVUppFlJHWVlAA3SUoSO+bBAdsEtIHd277Jh8k=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__fieldCompletion</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
